@@ -127,11 +127,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="logger.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="map.c" />
+    <ClCompile Include="message_console.c" />
+    <ClCompile Include="robot.c" />
+    <ClCompile Include="screen.c" />
+    <ClCompile Include="system.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="globals.h" />
+    <ClInclude Include="logger.h" />
     <ClInclude Include="map.h" />
+    <ClInclude Include="message_console.h" />
+    <ClInclude Include="robot.h" />
+    <ClInclude Include="screen.h" />
+    <ClInclude Include="VT100.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

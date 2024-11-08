@@ -1,0 +1,617 @@
+Welcome to the Lunar Ice Cave Explorer (LICE) System!
+---------------------------------------------------
+This program allows you to create and explore a cave map.
+Use the robot to draw and navigate through the cave, reading and setting cell attributes along the way.
+
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting Cell Attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Logs:
+  - In this window you will see logs for this run. Coordinates and cell attributes as you move, portal creation and usage, mode changes, etc.
+  - Logs will only update when you are clicked on this editor. So, to refresh logs after making map changes, just click on this notepad.
+
+Enjoy exploring and mapping!
+---------------------------------------------------
+
+(X: 59, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 59, Y: 12, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 59, Y: 11, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 58, Y: 11, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 57, Y: 11, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 56, Y: 11, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+Drawing Mode activated
+(X: 56, Y: 10, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 56, Y: 9, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 56, Y: 8, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 56, Y: 7, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 57, Y: 7, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 58, Y: 7, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 59, Y: 7, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 60, Y: 7, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 61, Y: 7, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 62, Y: 7, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 62, Y: 8, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 62, Y: 9, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+Movement Mode activated
+(X: 62, Y: 10, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 62, Y: 11, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 11, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 64, Y: 11, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 65, Y: 11, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 66, Y: 11, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 66, Y: 10, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+Drawing Mode activated
+Movement Mode activated
+Drawing Mode activated
+Movement Mode activated
+Drawing Mode activated
+(X: 66, Y: 11, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 66, Y: 12, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 66, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 66, Y: 14, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 66, Y: 15, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 65, Y: 15, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 65, Y: 14, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 65, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 65, Y: 12, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 65, Y: 11, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 65, Y: 10, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 65, Y: 9, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 65, Y: 8, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 65, Y: 7, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 65, Y: 6, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 65, Y: 5, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 64, Y: 5, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 63, Y: 5, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 62, Y: 5, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 61, Y: 5, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 60, Y: 5, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 59, Y: 5, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 58, Y: 5, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 57, Y: 5, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 56, Y: 5, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 55, Y: 5, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 55, Y: 6, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 55, Y: 7, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 55, Y: 8, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 55, Y: 9, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 55, Y: 10, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 55, Y: 11, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 55, Y: 12, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 55, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+Portal created
+Take portal from Layer 0 to Layer 1? Press 'p' to confirm
+(X: 55, Y: 15, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 55, Y: 16, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 54, Y: 16, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 53, Y: 16, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 52, Y: 16, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 51, Y: 16, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+Movement Mode activated
+(X: 51, Y: 15, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 51, Y: 14, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 51, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 52, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 51, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 50, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 51, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 52, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 53, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 53, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 52, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 53, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 55, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+Moved to layer: 1
+Portal created
+Take portal from Layer 1 to Layer 0? Press 'p' to confirm
+(X: 55, Y: 13, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+Take portal from Layer 1 to Layer 0? Press 'p' to confirm
+(X: 57, Y: 13, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 58, Y: 13, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 59, Y: 13, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+Drawing Mode activated
+(X: 59, Y: 14, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 59, Y: 15, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 59, Y: 16, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 59, Y: 17, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 59, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 59, Y: 19, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 59, Y: 20, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 58, Y: 20, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 57, Y: 20, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 56, Y: 20, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 55, Y: 20, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 54, Y: 20, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 53, Y: 20, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+Movement Mode activated
+(X: 53, Y: 19, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 53, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 55, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 56, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 57, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 58, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 59, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 59, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 58, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 57, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 56, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 55, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 53, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 52, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 52, Y: 19, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 52, Y: 20, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 53, Y: 20, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 20, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 19, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 17, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 16, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 15, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 14, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 13, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 55, Y: 13, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+Moved to layer: 0
+Take portal from Layer 0 to Layer 1? Press 'p' to confirm
+(X: 53, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 55, Y: 13, Z: 0) (E: 0, F: 5, R: 0, B: 0, T: R, I: 0)
+Moved to layer: 1
+Take portal from Layer 1 to Layer 0? Press 'p' to confirm
+(X: 53, Y: 13, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 52, Y: 13, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 51, Y: 13, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 51, Y: 12, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 51, Y: 11, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 51, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+Drawing Mode activated
+Portal created
+Take portal from Layer 1 to Layer 2? Press 'p' to confirm
+(X: 51, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 52, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 53, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 54, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+Movement Mode activated
+(X: 55, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 55, Y: 9, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 55, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 53, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 52, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 51, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+Moved to layer: 2
+Portal created
+Drawing Mode activated
+Take portal from Layer 2 to Layer 1? Press 'p' to confirm
+Movement Mode activated
+Drawing Mode activated
+Movement Mode activated
+(X: 50, Y: 9, Z: 2) (E: 2, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 51, Y: 9, Z: 2) (E: 2, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 51, Y: 10, Z: 2) (E: 2, F: 5, R: 0, B: 0, T: R, I: 0)
+Moved to layer: 1
+Take portal from Layer 1 to Layer 2? Press 'p' to confirm
+(X: 53, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 54, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 55, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 56, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 57, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 57, Y: 9, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 57, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 57, Y: 7, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 57, Y: 6, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 57, Y: 5, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 58, Y: 5, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 59, Y: 5, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 5, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 4, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 3, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 2, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 1, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 0, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: -1, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 0, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 1, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 2, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 3, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 4, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 5, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 6, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 7, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+Drawing Mode activated
+(X: 59, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 58, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 57, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 56, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 55, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 54, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 53, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 52, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 51, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 51, Y: 9, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 51, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+Take portal from Layer 1 to Layer 2? Press 'p' to confirm
+(X: 49, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 48, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 48, Y: 11, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 48, Y: 12, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 48, Y: 13, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 48, Y: 14, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 48, Y: 15, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 48, Y: 16, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 48, Y: 17, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 48, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 48, Y: 19, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 48, Y: 20, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 48, Y: 21, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 49, Y: 21, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 50, Y: 21, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 50, Y: 20, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 50, Y: 19, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 51, Y: 19, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 52, Y: 19, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 53, Y: 19, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 54, Y: 19, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 54, Y: 20, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 54, Y: 19, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 54, Y: 18, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 54, Y: 17, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+(X: 54, Y: 16, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0) - DRAWING
+Movement Mode activated
+(X: 55, Y: 16, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 56, Y: 16, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 56, Y: 15, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 56, Y: 14, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 56, Y: 13, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 56, Y: 12, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 56, Y: 11, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 56, Y: 10, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 56, Y: 9, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 57, Y: 9, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 58, Y: 9, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 59, Y: 9, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 60, Y: 9, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 9, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+Unrecognized command: ''. Please refer to the available commands below.
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting cell attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Please try again with a valid command.
+(X: 61, Y: 7, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 6, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 5, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 4, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 3, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 2, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 1, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 0, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 1, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 2, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 3, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 4, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 5, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 6, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 7, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 61, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 62, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 8, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 7, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 6, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 5, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 4, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 5, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 4, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 5, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 4, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 5, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 4, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 3, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 2, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 1, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 0, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: -1, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: -2, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: -1, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 0, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 1, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 2, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 3, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 63, Y: 4, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+Unrecognized command: ';'. Please refer to the available commands below.
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting cell attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Please try again with a valid command.
+Unrecognized command: '5'. Please refer to the available commands below.
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting cell attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Please try again with a valid command.
+Unrecognized command: 'A'. Please refer to the available commands below.
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting cell attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Please try again with a valid command.
+Unrecognized command: ';'. Please refer to the available commands below.
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting cell attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Please try again with a valid command.
+Unrecognized command: '5'. Please refer to the available commands below.
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting cell attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Please try again with a valid command.
+Unrecognized command: 'A'. Please refer to the available commands below.
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting cell attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Please try again with a valid command.
+Unrecognized command: ';'. Please refer to the available commands below.
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting cell attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Please try again with a valid command.
+Unrecognized command: '5'. Please refer to the available commands below.
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting cell attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Please try again with a valid command.
+Unrecognized command: 'A'. Please refer to the available commands below.
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting cell attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Please try again with a valid command.
+Unrecognized command: ';'. Please refer to the available commands below.
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting cell attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Please try again with a valid command.
+Unrecognized command: '5'. Please refer to the available commands below.
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting cell attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Please try again with a valid command.
+Unrecognized command: 'B'. Please refer to the available commands below.
+Valid Commands:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+  - 'p' key: In Drawing mode, create portal, in Movement mode, use portal if on top of one
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Setting cell attributes:
+  - In cell editing mode, press the lower case version of the attribute identifier to edit it
+		- Ex: press 'r' to edit the R (radiation) attribute
+  - After selecting which attribute to edit, enter the new value followed by the enter key
+  - Press 'q' at any time to quit editing the cell
+  - Home Key: Exit the program
+  - 'p' key: 
+
+Please try again with a valid command.
+(X: 64, Y: 4, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 65, Y: 4, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 66, Y: 4, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 66, Y: 5, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 66, Y: 6, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)
+(X: 67, Y: 6, Z: 1) (E: 1, F: 5, R: 0, B: 0, T: R, I: 0)

@@ -1,0 +1,95 @@
+Welcome to the Lunar Ice Cave Explorer (LICE) System!
+---------------------------------------------------
+This program allows you to create and explore a cave map.
+Use the robot to draw and navigate through the cave, reading and setting cell attributes along the way.
+
+Controls:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'C' Key: Set attributes for the current cell you are on (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Instructions:
+  1. Start in Movement Mode to navigate.
+  2. Toggle to Drawing Mode to create tunnels.
+  3. Press 'C' to set cell attributes at the robot's location.
+  4. Use Home to exit when you're finished.
+
+Enjoy exploring and mapping the lunar caves!
+---------------------------------------------------
+Welcome to the Lunar Ice Cave Explorer (LICE) System!
+---------------------------------------------------
+This program allows you to create and explore a cave map.
+Use the robot to draw and navigate through the cave, reading and setting cell attributes along the way.
+
+Controls:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'C' Key: Set attributes for the current cell you are on (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Instructions:
+  1. Start in Movement Mode to navigate.
+  2. Toggle to Drawing Mode to create tunnels.
+  3. Press 'C' to set cell attributes at the robot's location.
+  4. Use Home to exit when you're finished.
+
+Enjoy exploring and mapping the lunar caves!
+---------------------------------------------------
+Drawing Mode activated
+Movement Mode activated
+Welcome to the Lunar Ice Cave Explorer (LICE) System!
+---------------------------------------------------
+This program allows you to create and explore a cave map.
+Use the robot to draw and navigate through the cave, reading and setting cell attributes along the way.
+
+Controls:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'C' Key: Set attributes for the current cell you are on (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Instructions:
+  1. Start in Movement Mode to navigate.
+  2. Toggle to Drawing Mode to create tunnels.
+  3. Press 'C' to set cell attributes at the robot's location.
+  4. Use Home to exit when you're finished.
+
+Enjoy exploring and mapping the lunar caves!
+---------------------------------------------------
+Welcome to the Lunar Ice Cave Explorer (LICE) System!
+---------------------------------------------------
+This program allows you to create and explore a cave map.
+Use the robot to draw and navigate through the cave, reading and setting cell attributes along the way.
+
+Controls:
+  - Arrow Keys: Move the robot (Up, Down, Left, Right)
+  - 'C' Key: Set attributes for the current cell you are on (elevation, friction, etc.)
+  - Insert Key: Toggle between Movement and Drawing modes
+  - Home Key: Exit the program
+
+Modes:
+  - Movement Mode: Move the robot without leaving a trail.
+  - Drawing Mode: Leave a tunnel trail as you move.
+
+Instructions:
+  1. Start in Movement Mode to navigate.
+  2. Toggle to Drawing Mode to create tunnels.
+  3. Press 'C' to set cell attributes at the robot's location.
+  4. Use Home to exit when you're finished.
+
+Enjoy exploring and mapping the lunar caves!
+---------------------------------------------------
+Drawing Mode activated

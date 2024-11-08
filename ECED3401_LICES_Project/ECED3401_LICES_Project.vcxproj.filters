@@ -21,9 +21,42 @@
     <ClCompile Include="map.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="robot.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="screen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="system.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="message_console.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="logger.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="robot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VT100.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="message_console.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
