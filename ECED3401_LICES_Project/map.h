@@ -38,4 +38,7 @@ void initialize_layer(Map* map, int layer_index);
 // function to handle moving through a portal
 void handle_portal(Map* map, int from_layer, int to_layer);
 
+// function to draw the map visible in the viewport of the console at its current size
+void draw_visible_map(Map* map);
+
 #endif // MAP_H

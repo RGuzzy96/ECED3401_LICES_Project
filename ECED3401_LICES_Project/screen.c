@@ -10,8 +10,14 @@
 
 #include "vt100.h"
 #include "screen.h"
+#include "map.h"
+#include "globals.h"
+#include "time.h" // using for debouncing resize, found at https://stackoverflow.com/questions/17167949/how-to-use-timer-in-c
+
+#define RESIZE_DEBOUNCE_MS 1000 // debounce with 200 ms
 
 SCREEN screen;
+clock_t last_resize_time = 0;
 
 void print_msg(char* msg, int bottom)
 {
@@ -39,6 +45,55 @@ else {
 
 printf(CSI "%d;%dm%s", BGBLUE, FGWHITE, msg);
 printf(CSI "%d;%dm", BGGREEN, FGWHITE); /* Restore FG & BG colour */
+}
+
+void screen_resize(int new_max_cols, int new_max_rows) {
+
+	int old_center_x = screen.center.col;
+	int old_center_y = screen.center.row;
+
+	screen.max.col = new_max_cols;
+	screen.max.row = new_max_rows;
+
+	screen.center.col = (screen.max.col - screen.min.col) / 2;
+	screen.center.row = (screen.max.row - screen.min.row) / 2;
+
+	// get new viewport translations based on ratios of center points
+	viewport_x = viewport_x + old_center_x - screen.center.col;
+	viewport_y = viewport_y + old_center_y - screen.center.row;
+
+	CLRSCR
+
+	/* Resizing displays cursor - hide it */
+	printf(CSI "?25l");
+
+	draw_visible_map(cave_map);
+}
+
+int check_screen_size() {
+	CONSOLE_SCREEN_BUFFER_INFO ScreenBufferInfo;
+
+	int new_max_col = 0;
+	int new_max_row = 0;
+
+	/* Get new screen size */
+	GetConsoleScreenBufferInfo(scrout, &ScreenBufferInfo);
+
+	new_max_col = ScreenBufferInfo.srWindow.Right - ScreenBufferInfo.srWindow.Left + 1;
+	new_max_row = ScreenBufferInfo.srWindow.Bottom - ScreenBufferInfo.srWindow.Top + 1;
+
+	if (new_max_col != screen.max.col || new_max_row != screen.max.row) {
+		clock_t current_time = clock();
+		if ((current_time - last_resize_time) * 1000 / CLOCKS_PER_SEC > RESIZE_DEBOUNCE_MS) {
+			last_resize_time = current_time;
+			print_msg("Adjusting screen size...", 0);
+			screen_resize(new_max_col, new_max_row);
+			return 1;
+		}
+	}
+	else {
+		return 0;
+	}
 }
 
 void screen_init()

@@ -43,7 +43,7 @@ printf(CSI "%dm" CSI "%dm", BGGREEN, FGWHITE);
 draw_object(mylice.x, mylice.y, START_SYM);
 }
 
-void robot_move(char ch)
+void robot_move(char ch, int offset_x, int offset_y)
 {
 enum direction new_dir;
 enum symbol new_off; /* Offset into asc_dec[] */
@@ -52,24 +52,55 @@ int new_x;
 int new_y;
 
 /* DEC Keypad sequence (U, D, R, L) */
-new_x = mylice.x + del_x[ch - 'A'];
-new_y = mylice.y + del_y[ch - 'A'];
-
-/* Should check for edge of world */
+new_x = mylice.x + del_x[ch - 'A'] + viewport_x;
+new_y = mylice.y + del_y[ch - 'A'] + viewport_y;
 
 /* New direction? */
-if (new_y < mylice.y)
+if (new_y < mylice.y + viewport_y)
 	new_dir = NORTH;
 else
-if (new_y > mylice.y)
+if (new_y > mylice.y + viewport_y)
 	new_dir = SOUTH;
 else
-if (new_x < mylice.x)
+if (new_x < mylice.x + viewport_x)
 	new_dir = WEST;
 else
 	new_dir = EAST;
 
-Cell* current_cell = &cave_map->layers[cave_map->current_layer].cells[mylice.x][mylice.y];
+// make sure robot stays in bounds
+if (new_x < 0 || new_x >= MAP_SIZE || new_y < 0 || new_y >= MAP_SIZE) {
+	print_msg("Blocked, edge of the map.", 0);
+	if (offset_x != 0 || offset_y != 0) {
+		if (new_dir == NORTH) {
+			viewport_y++;
+		} else if (new_dir == SOUTH) {
+			viewport_y--;
+		} else if (new_dir == WEST) {
+			viewport_x++;
+		} else if (new_dir == EAST) {
+			viewport_x--;
+		}
+	}
+	
+	return;
+}
+
+// block the robot at the visible edge of the console if not trying to resize
+if (!offset_x && !offset_y) {
+	if ((mylice.x <= screen.min.col + 1 && del_x[ch - 'A'] < 0) ||
+		(mylice.x >= screen.max.col - 2 && del_x[ch - 'A'] > 0)) {
+		print_msg("Blocked, reached console edge horizontally. Press 'ctrl' + arrow key to move the map", 0);
+		return;
+	}
+
+	if ((mylice.y <= screen.min.row + 1 && del_y[ch - 'A'] < 0) ||
+		(mylice.y >= screen.max.row - 2 && del_y[ch - 'A'] > 0)) {
+		print_msg("Blocked, reached console edge vertically. Press 'ctrl' + arrow key to move the map", 0);
+		return;
+	}
+}
+
+Cell* current_cell = &cave_map->layers[cave_map->current_layer].cells[mylice.x + viewport_x][mylice.y + viewport_y];
 
 /* Get symbol offset */
 new_off = cell_sym[new_dir][mylice.curr_dir];
@@ -80,7 +111,7 @@ new_sym = current_cell->isPortal ? 'O' : asc_dec[new_off];
 EDLDM /* Enable DEC line drawing mode */
 
 if (is_drawing_mode) {
-	if (draw_object(mylice.x, mylice.y, new_sym) == 0)
+	if (draw_object(mylice.x + offset_x, mylice.y + offset_y, new_sym) == 0)
 	{
 		/* Draw worked */
 
@@ -88,13 +119,13 @@ if (is_drawing_mode) {
 		current_cell->printed_symbol = new_sym;
 
 		/* Remember last valid position */
-		mylice.oldx = mylice.x;
-		mylice.oldy = mylice.y;
+		mylice.oldx = mylice.x + offset_x;
+		mylice.oldy = mylice.y + offset_y;
 		mylice.old_dir = mylice.curr_dir; 
 		mylice.curr_dir = new_dir;
 		/* Possible overshoot to invalid position */
-		mylice.x = new_x;
-		mylice.y = new_y;
+		mylice.x = new_x - viewport_x + offset_x;
+		mylice.y = new_y - viewport_y + offset_y;
 	}
 	else
 	{
@@ -107,15 +138,15 @@ if (is_drawing_mode) {
 }
 else {
 	// in movement mode, move robot without drawing
-	mylice.oldx = mylice.x;
-	mylice.oldy = mylice.y;
+	mylice.oldx = mylice.x + offset_x;
+	mylice.oldy = mylice.y + offset_y;
 	mylice.old_dir = mylice.curr_dir;
 	mylice.curr_dir = new_dir;
-	mylice.x = new_x;
-	mylice.y = new_y;
+	mylice.x = new_x - viewport_x + offset_x;
+	mylice.y = new_y - viewport_y + offset_y;
 
 	// replace previous robot symbol with previous cell symbol
-	char prev_sym = cave_map->layers[cave_map->current_layer].cells[mylice.oldx][mylice.oldy].printed_symbol;
+	char prev_sym = cave_map->layers[cave_map->current_layer].cells[mylice.oldx + viewport_x][mylice.oldy + viewport_y].printed_symbol;
 	if (prev_sym != ' ') {
 		draw_object(mylice.oldx, mylice.oldy, prev_sym);
 	}
@@ -137,8 +168,8 @@ if (current_cell->isPortal) {
 else {
 	sprintf(msg, is_drawing_mode ? "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%) - DRAWING" 
 		: "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%)", 
-		mylice.x, 
-		mylice.y, 
+		mylice.x + viewport_x, 
+		mylice.y + viewport_y, 
 		cave_map->current_layer,
 		current_cell->elevation,
 		current_cell->friction,
@@ -156,7 +187,7 @@ EAM /* Enable ASCII mode */
 }
 
 void create_portal(char portal_direction) {
-	Cell* current_cell = &cave_map->layers[cave_map->current_layer].cells[mylice.x][mylice.y];
+	Cell* current_cell = &cave_map->layers[cave_map->current_layer].cells[mylice.x + viewport_x][mylice.y + viewport_y];
 	
 	current_cell->isPortal = 1;
 	current_cell->printed_symbol = 'O';
@@ -166,7 +197,7 @@ void create_portal(char portal_direction) {
 }
 
 void use_portal() {
-	Cell* current_cell = &cave_map->layers[cave_map->current_layer].cells[mylice.x][mylice.y];
+	Cell* current_cell = &cave_map->layers[cave_map->current_layer].cells[mylice.x + viewport_x][mylice.y + viewport_y];
 
 	if (current_cell->isPortal) {
 		int from_layer = cave_map->current_layer;
@@ -177,7 +208,7 @@ void use_portal() {
 		print_msg(msg, 0);
 		handle_portal(cave_map, from_layer, to_layer);
 
-		Cell* new_portal_cell = &cave_map->layers[to_layer].cells[mylice.x][mylice.y];
+		Cell* new_portal_cell = &cave_map->layers[to_layer].cells[mylice.x + viewport_x][mylice.y + viewport_y];
 
 		// create portal connection in new layer if it does not already exist
 		if (!new_portal_cell->isPortal) {
@@ -223,7 +254,7 @@ int isValidType(char type) {
 }
 
 void set_cell_attributes() {
-	Cell* current_cell = &cave_map->layers[cave_map->current_layer].cells[mylice.x][mylice.y];
+	Cell* current_cell = &cave_map->layers[cave_map->current_layer].cells[mylice.x + viewport_x][mylice.y + viewport_y];
 	char attribute;
 	char value[10];
 	int intValue;
@@ -318,8 +349,8 @@ void set_cell_attributes() {
 	char msg[200];
 	sprintf(msg, is_drawing_mode ? "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%) - DRAWING"
 		: "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%)",
-		mylice.x,
-		mylice.y,
+		mylice.x + viewport_x,
+		mylice.y + viewport_y,
 		cave_map->current_layer,
 		current_cell->elevation,
 		current_cell->friction,

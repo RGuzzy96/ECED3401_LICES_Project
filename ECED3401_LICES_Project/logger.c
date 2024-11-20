@@ -80,6 +80,7 @@ void print_welcome_log() {
 	log_message("");
 	log_message("Valid Commands:");
 	log_message("  - Arrow Keys: Move the robot (Up, Down, Left, Right)");
+	log_message("		- 'CTRL' + Arrow Keys will move the robot and the map");
 	log_message("  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)");
 	log_message("  - Insert Key: Toggle between Movement and Drawing modes");
 	log_message("  - Home Key: Exit the program");
@@ -114,6 +115,7 @@ void print_unrecognized_command(char unrecognized_command) {
 
 	log_message("Valid Commands:");
 	log_message("  - Arrow Keys: Move the robot (Up, Down, Left, Right)");
+	log_message("		- 'CTRL' + Arrow Keys will move the robot and the map");
 	log_message("  - 'c' Key: Set attributes for the current cell (elevation, friction, etc.)");
 	log_message("  - Insert Key: Toggle between Movement and Drawing modes");
 	log_message("  - Home Key: Exit the program");
