@@ -6,6 +6,7 @@
 #include "logger.h"
 #include "screen.h"
 #include "VT100.h"
+#include "globals.h"
 
 Map* create_map() {
 	Map* map = (Map*)calloc(1, sizeof(Map)); // initialize map with calloc (zero all values) for size of Map type
@@ -44,22 +45,31 @@ void initialize_layer(Map* map, int layer_index) {
 	map->layers[layer_index].initialized = 1;
 }
 
-void load_layer(Map* map) {
+void draw_visible_map(Map* map) {
 	Layer* current_layer = &map->layers[map->current_layer];
 	
 	// enable DEC line drawing mode
 	EDLDM
 
-	for (int x = 0; x < MAP_SIZE; x++) {
-		for (int y = 0; y < MAP_SIZE; y++) {
-			char sym = current_layer->cells[x][y].printed_symbol;
-			if (sym != ' ') {
-				printf(CSI "%dm", BGGREEN);
+	for (int y = 0; y < screen.max.row; y++) {
+		for (int x = 0; x < screen.max.col; x++) {
+			int map_x = x + viewport_x;
+			int map_y = y + viewport_y;
+
+			if (0 <= map_x && map_x < MAP_SIZE && 0 <= map_y && map_y < MAP_SIZE) {
+				char sym = current_layer->cells[map_x][map_y].printed_symbol;
+				if (sym != ' ') {
+					printf(CSI "%dm", BGGREEN);
+				}
+				else {
+					printf(CSI "%dm", BGBLACK);
+				}
+				draw_object(x, y, sym);
 			}
 			else {
-				printf(CSI "%dm", BGBLACK);
+				// filling outside of map with green
+				printf(CSI "%dm", BGGREEN);
 			}
-			draw_object(x, y, sym);
 		}
 	}
 
@@ -74,7 +84,7 @@ void handle_portal(Map* map, int from_layer, int to_layer) {
 		if (!map->layers[to_layer].initialized) {
 			initialize_layer(map, to_layer);
 		}
-		load_layer(map);
+		draw_visible_map(map);
 
 		char msg[50];
 		sprintf(msg,"Moved to layer: %d", to_layer);

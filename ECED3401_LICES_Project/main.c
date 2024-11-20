@@ -40,6 +40,8 @@ HANDLE kbin; // input stream handler (keyboard input)
 
 int is_drawing_mode = 0; // initialize robot in move mode
 Map* cave_map = NULL;
+int viewport_x;
+int viewport_y;
 
 void terminate(char* msg) {
 	// fatal error detected, terminate program

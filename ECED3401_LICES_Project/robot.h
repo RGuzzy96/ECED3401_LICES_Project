@@ -22,7 +22,7 @@ int old_dir;
 typedef struct robot ROBOT;
 
 extern void robot_init();
-extern void robot_move(char);
+extern void robot_move(char, int offset_x, int offset_y);
 
 extern void create_portal(char portal_direction);
 extern void use_portal();

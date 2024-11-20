@@ -27,3 +27,4 @@ extern SCREEN screen;
 extern int draw_object(int col, int row, int symbol);
 extern void print_msg(char* msg, int bottom);
 extern void screen_init();
+extern int check_screen_size();
