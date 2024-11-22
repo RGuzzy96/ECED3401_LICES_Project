@@ -142,6 +142,7 @@
     <ClInclude Include="message_console.h" />
     <ClInclude Include="robot.h" />
     <ClInclude Include="screen.h" />
+    <ClInclude Include="storage.h" />
     <ClInclude Include="VT100.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
