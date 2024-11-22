@@ -6,6 +6,7 @@
 
  - ECED 3401
  -  3 Oct 24 - Original
+ - 22 NOv 24 - Updated for resizing
 */
 
 #include "vt100.h"
@@ -14,7 +15,7 @@
 #include "globals.h"
 #include "time.h" // using for debouncing resize, found at https://stackoverflow.com/questions/17167949/how-to-use-timer-in-c
 
-#define RESIZE_DEBOUNCE_MS 1000 // debounce with 200 ms
+#define RESIZE_DEBOUNCE_MS 1000 // debounce with 1s
 
 SCREEN screen;
 clock_t last_resize_time = 0;
@@ -58,7 +59,7 @@ void screen_resize(int new_max_cols, int new_max_rows) {
 	screen.center.col = (screen.max.col - screen.min.col) / 2;
 	screen.center.row = (screen.max.row - screen.min.row) / 2;
 
-	// get new viewport translations based on ratios of center points
+	// get new viewport translations based on differences in center point
 	viewport_x = viewport_x + old_center_x - screen.center.col;
 	viewport_y = viewport_y + old_center_y - screen.center.row;
 

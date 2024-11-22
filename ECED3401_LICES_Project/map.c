@@ -66,10 +66,6 @@ void draw_visible_map(Map* map) {
 				}
 				draw_object(x, y, sym);
 			}
-			else {
-				// filling outside of map with green
-				printf(CSI "%dm", BGGREEN);
-			}
 		}
 	}
 
