@@ -64,31 +64,33 @@ while (!done)
 					char ctrl_code = (char)_getch();
 
 					if (ctrl_code == '5') {
-						switch (ch = (char)_getch()) {
-						case 'A':
-							viewport_y--;
-							offset_y = 1;
-							draw_visible_map(cave_map);
-							flush_input_buffer();
-							break;
-						case 'B':
-							viewport_y++;
-							offset_y = -1;
-							draw_visible_map(cave_map);
-							flush_input_buffer();
-							break;
-						case 'C':
-							viewport_x++;
-							offset_x = -1;
-							draw_visible_map(cave_map);
-							flush_input_buffer();
-							break;
-						case 'D':
-							viewport_x--;
-							offset_x = 1;
-							draw_visible_map(cave_map);
-							flush_input_buffer();
-							break;
+						if (!is_drawing_mode) {
+							switch (ch = (char)_getch()) {
+							case 'A':
+								viewport_y--;
+								offset_y = 1;
+								draw_visible_map(cave_map);
+								flush_input_buffer();
+								break;
+							case 'B':
+								viewport_y++;
+								offset_y = -1;
+								draw_visible_map(cave_map);
+								flush_input_buffer();
+								break;
+							case 'C':
+								viewport_x++;
+								offset_x = -1;
+								draw_visible_map(cave_map);
+								flush_input_buffer();
+								break;
+							case 'D':
+								viewport_x--;
+								offset_x = 1;
+								draw_visible_map(cave_map);
+								flush_input_buffer();
+								break;
+							}
 						}
 					}
 				}
