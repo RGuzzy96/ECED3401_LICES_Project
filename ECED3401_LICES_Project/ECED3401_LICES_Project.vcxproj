@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="file_storage.c" />
     <ClCompile Include="logger.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="map.c" />
@@ -142,7 +143,8 @@
     <ClInclude Include="message_console.h" />
     <ClInclude Include="robot.h" />
     <ClInclude Include="screen.h" />
-    <ClInclude Include="storage.h" />
+    <ClInclude Include="sensor.h" />
+    <ClInclude Include="file_storage.h" />
     <ClInclude Include="VT100.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

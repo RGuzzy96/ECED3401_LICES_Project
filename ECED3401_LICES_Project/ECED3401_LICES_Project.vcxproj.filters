@@ -36,6 +36,9 @@
     <ClCompile Include="logger.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="file_storage.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="map.h">
@@ -59,7 +62,10 @@
     <ClInclude Include="globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="storage.h">
+    <ClInclude Include="sensor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="file_storage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

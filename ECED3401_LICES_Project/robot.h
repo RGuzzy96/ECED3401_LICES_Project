@@ -6,7 +6,7 @@
 	- 1 Nov 24 - Modified for Task 5 implementation (Ryan Guzzwell, Hemang Arora)
 */
 
-#include "map.h"
+// need to store robot state for battery and radiation exposure or whatever
 
 struct robot
 {

@@ -34,6 +34,7 @@ Changelog:
 #include "map.h"
 #include "logger.h"
 #include "screen.h"
+#include "file_storage.h"
 
 HANDLE scrout; // output stream handler (screen output)
 HANDLE kbin; // input stream handler (keyboard input)
@@ -42,6 +43,7 @@ int is_drawing_mode = 0; // initialize robot in move mode
 Map* cave_map = NULL;
 int viewport_x;
 int viewport_y;
+int unsaved_changes = 0;
 
 void terminate(char* msg) {
 	// fatal error detected, terminate program
@@ -84,14 +86,17 @@ int main(void) {
 		terminate("Can't set console mode");
 	}
 
+	init_log_file();
+
+	// open and initialize file for storing and retrieving maps
+	open_and_initialize_file("map_storage.dat");
+
 	// initialize screen and robot
 	screen_init();
 	robot_init();
 
 	/* Enable keypad escape sequence */
 	KPNM
-
-	init_log_file();
 
 	// initialize map for cave input
 	cave_map = create_map();

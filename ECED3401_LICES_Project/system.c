@@ -22,6 +22,7 @@
 #include "logger.h"
 #include "globals.h"
 #include "screen.h"
+#include "file_storage.h"
 
 // function to flush the input buffer - needed to prevent the issue of user holding down keys for a long time
 // and then stopping and noticing that the program seems to loop, but really it is just addressing the long
@@ -141,6 +142,10 @@ while (!done)
 				else {
 					use_portal();
 				}
+				break;
+			case 's':
+				log_message("Trying to save map layer!");
+				save_layer(cave_map->current_layer);
 				break;
 			default:
 				print_msg("Uncrecognized command", 0);
