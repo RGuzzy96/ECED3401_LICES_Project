@@ -7,6 +7,7 @@
 #include "screen.h"
 #include "VT100.h"
 #include "globals.h"
+#include "file_storage.h"
 
 Map* create_map() {
 	Map* map = (Map*)calloc(1, sizeof(Map)); // initialize map with calloc (zero all values) for size of Map type
@@ -25,6 +26,8 @@ Map* create_map() {
 }
 
 void initialize_layer(Map* map, int layer_index) {
+	log_message("Initializing layer!");
+
 	// loop through each col in layer
 	for (int x = 0; x < MAP_SIZE; x++) {
 
@@ -39,10 +42,17 @@ void initialize_layer(Map* map, int layer_index) {
 			map->layers[layer_index].cells[x][y].ritterbarium = 0;
 			map->layers[layer_index].cells[x][y].type = 'R'; // default cell type is Rock
 			map->layers[layer_index].cells[x][y].printed_symbol = ' ';
+			map->layers[layer_index].cells[x][y].unsaved = 0;
 		}
 	}
 
 	map->layers[layer_index].initialized = 1;
+	map->layers[layer_index].unsaved = 0;
+
+	// load layer from external file memory
+	if (load_layer(map, layer_index)) {
+		draw_visible_map(map);
+	}
 }
 
 void draw_visible_map(Map* map) {

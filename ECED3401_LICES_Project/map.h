@@ -15,12 +15,14 @@ typedef struct {
 	char printed_symbol; // storing symbol printed, if any, for map visual purposes
 	int isPortal;
 	int portalDestinationLayer;
+	int unsaved;
 } Cell;
 
 // struct for single layer, a 1km x 1km grid, within a complete map
 typedef struct {
 	Cell cells[MAP_SIZE][MAP_SIZE];
 	int initialized;
+	int unsaved;
 } Layer;
 
 // struct for the entire map, holding up to 100 stacked layers

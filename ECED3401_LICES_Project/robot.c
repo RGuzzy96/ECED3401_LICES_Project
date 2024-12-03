@@ -25,8 +25,71 @@ short del_x[] = { 0, 0, 1, -1 };
 ROBOT mylice;
 
 /* ASCII-to-DEC graphic characters */
-enum symbol asc_dec[] = {
-	'j', 'k', 'l', 'm', 'n', 'q', 't', 'u', 'v', 'w', 'x', ' ' };
+enum symbol asc_dec[] = { 'j', 'k', 'l', 'm', 'n', 'q', 't', 'u', 'v', 'w', 'x', ' ' };
+
+char determine_new_symbol(char prev_sym, enum direction new_dir) {
+	if (prev_sym != ' ' && prev_sym != NUL) {
+		switch (new_dir) {
+		case NORTH:
+			switch (prev_sym) {
+			case 'q': return 'n'; // see https://learn.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#designate-character-set
+			case 'v': return 'n'; // for table outlining the ASCII to DEC line drawing conversion
+			case 'u': return 'n';
+			case 'l': return 't';
+			case 'j': return 'x';
+			case 'k': return 'w';
+			case 'm': return 'l';
+			case 'n': return 'n';
+			case 't': return 't';
+			case 'w': return 'n';
+			}
+			break;
+
+		case SOUTH:
+			switch (prev_sym) {
+			case 'q': return 'n';
+			case 'w': return 'n';
+			case 'u': return 't';
+			case 'l': return 'x';
+			case 'j': return 'v';
+			case 'k': return 't';
+			case 'm': return 'v';
+			case 'n': return 'n';
+			case 't': return 'n';
+			}
+			break;
+
+		case EAST:
+			switch (prev_sym) {
+			case 'x': return 'n';
+			case 't': return 'n';
+			case 'l': return 'w';
+			case 'j': return 'u';
+			case 'k': return 'w';
+			case 'm': return 't';
+			case 'v': return 'u';
+			case 'n': return 'n';
+			case 'w': return 'w';
+			}
+			break;
+
+		case WEST:
+			switch (prev_sym) {
+			case 'x': return 'n';
+			case 'u': return 'n';
+			case 'j': return 'v';
+			case 'k': return 't';
+			case 'l': return 'v';
+			case 'm': return 't';
+			case 'n': return 'n';
+			case 't': return 't';
+			case 'w': return 'n';
+			}
+			break;
+		}
+	}
+	return prev_sym;
+}
 
 void robot_init()
 {
@@ -111,12 +174,26 @@ new_sym = current_cell->isPortal ? 'O' : asc_dec[new_off];
 EDLDM /* Enable DEC line drawing mode */
 
 if (is_drawing_mode) {
+	char prev_sym = current_cell->printed_symbol;
+	if (prev_sym != ' ' && !current_cell->isPortal) {
+		new_sym = determine_new_symbol(prev_sym, new_dir);
+	}
+
 	if (draw_object(mylice.x + offset_x, mylice.y + offset_y, new_sym) == 0)
 	{
 		/* Draw worked */
 
 		// store the symbol we are drawing in this cell
 		current_cell->printed_symbol = new_sym;
+
+		// mark this cell as having unsaved changes
+		current_cell->unsaved = 1;
+
+		// mark current layer as having unsaved changes
+		cave_map->layers[cave_map->current_layer].unsaved = 1;
+
+		// update global unsaved changes state to true
+		unsaved_changes = 1;
 
 		/* Remember last valid position */
 		mylice.oldx = mylice.x + offset_x;
@@ -134,7 +211,6 @@ if (is_drawing_mode) {
 		mylice.y = mylice.oldy;
 		mylice.curr_dir = mylice.old_dir;
 	}
-
 }
 else {
 	// in movement mode, move robot without drawing
@@ -166,7 +242,7 @@ if (current_cell->isPortal) {
 	sprintf(msg, "Take portal from Layer %d to Layer %d? Press 'p' to confirm", current_cell->elevation, current_cell->portalDestinationLayer);
 }
 else {
-	sprintf(msg, is_drawing_mode ? "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%) - DRAWING" 
+	sprintf(msg, unsaved_changes ? "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%) - UNSAVED CHANGES" 
 		: "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%)", 
 		mylice.x + viewport_x, 
 		mylice.y + viewport_y, 
