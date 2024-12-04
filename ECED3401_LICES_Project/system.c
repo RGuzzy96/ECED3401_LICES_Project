@@ -23,6 +23,11 @@
 #include "globals.h"
 #include "screen.h"
 #include "file_storage.h"
+#include "time.h"
+
+#define EMULATOR_STEP_DEBOUNCE 200
+
+clock_t last_emulator_step_time = 0;
 
 // function to flush the input buffer - needed to prevent the issue of user holding down keys for a long time
 // and then stopping and noticing that the program seems to loop, but really it is just addressing the long
@@ -33,7 +38,34 @@ void flush_input_buffer() {
 	}
 }
 
-void go_robot_go()
+void select_run_mode() {
+	print_msg("Select run mode: d = Design, e = Emulator", 1);
+
+	int done;
+
+	done = FALSE;
+
+	while (!done) {
+		if (_kbhit()) {
+			char ch = (char)_getch();
+			char msg[25];
+			sprintf(msg, "Ch: %c", ch);
+			log_message(msg);
+			switch (ch) {	
+			case 'd':
+				run_mode = DESIGN;
+				done = TRUE;
+				break;
+			case 'e':
+				run_mode = EMULATOR;
+				done = TRUE;
+				break;
+			}
+		}	
+	}
+}
+
+void design_loop()
 {
 int done;
 char ch;
@@ -99,6 +131,7 @@ while (!done)
 				{
 				case 'H':
 					done = TRUE;
+					quit_program = 1;
 					break;
 				case 'A':
 				case 'B':
@@ -145,7 +178,12 @@ while (!done)
 				break;
 			case 's':
 				log_message("Trying to save map layer!");
-				save_layer(cave_map->current_layer);
+				save();
+				break;
+			case 'm':
+				log_message("Changing mode");
+				select_run_mode();
+				done = TRUE;
 				break;
 			default:
 				print_msg("Uncrecognized command", 0);
@@ -155,7 +193,103 @@ while (!done)
 		}
 		}
 	}
+}
 
-	
+void reset_emulator() {
+	// reset to first layer to start emulation
+	if (cave_map->current_layer != 0) {
+		cave_map->current_layer = 0;
+	}
 
+	draw_visible_map(cave_map);
+	robot_init();
+
+	// reset visited list to no cells visited
+	memset(visited_list, 0, sizeof(visited_list));
+}
+
+void emulator_loop() {
+	log_message("Starting emulator...");
+
+	print_msg("Press 's' to start emulator", 1);
+	print_msg("Coordinates, cell attributes, and other details will show up here", 0);
+
+	int done = FALSE;
+	int emulator_running = 0;
+	int found_ice = 0;
+	int already_printed_ice_message = 0;
+
+	// reset to first layer to start emulation
+	if (cave_map->current_layer != 0) {
+		cave_map->current_layer = 0;
+	}
+
+	draw_visible_map(cave_map);
+	robot_init();
+
+	// reset visited list to no cells visited
+	memset(visited_list, 0, sizeof(visited_list));
+
+	while (!done) {
+
+		if (_kbhit()) {
+			char ch = (char)_getch();
+
+			switch (ch) {
+			case 'm':
+				log_message("Changing mode");
+				select_run_mode();
+				done = TRUE;
+				break;
+			case 's':
+				if (!emulator_running) {
+					log_message("Starting emulator");
+					print_msg("Emulator running. Press 'p' to pause", 1);
+					emulator_running = 1;
+
+					// if we are running again after finding ice
+					if (found_ice) {
+						found_ice = 0;
+						already_printed_ice_message = 0;
+
+						reset_emulator();
+					}
+				}
+				break;
+			case 'p':
+				log_message("Pausing emulator");
+				emulator_running = 0;
+				print_msg("Emulator paused. Press 's' to start, 'r' to reset, or 'q' to quit program", 1);
+				break;
+			case 'r':
+				// reset the robot state here
+				log_message("Resetting emulator");
+				emulator_running = 0;
+				found_ice = 0;
+				already_printed_ice_message = 0;
+				reset_emulator();
+				print_msg("Emulator reset. Press 's' to start", 1);
+				break;
+			case 'q':
+				log_message("Quitting program");
+				done = TRUE;
+				quit_program = 1;
+				break;
+			}
+		}
+
+		if (emulator_running && !found_ice) {
+			clock_t current_time = clock();
+			if ((current_time - last_emulator_step_time) * 1000 / CLOCKS_PER_SEC > EMULATOR_STEP_DEBOUNCE) {
+				last_emulator_step_time = current_time;
+				found_ice = handle_emulator_step();
+			}
+		}
+
+		// hang program once we have found ice
+		if (found_ice && !already_printed_ice_message) {
+			print_msg("We have found ice! You can run the emulator again, or switch to design mode to update the map", 1);
+			already_printed_ice_message = 1;
+		}
+	}
 }

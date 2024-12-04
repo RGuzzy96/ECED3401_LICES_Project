@@ -4,9 +4,11 @@
 #include "logger.h"
 #include "globals.h"
 #include "map.h"
+#include "screen.h"
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <conio.h>
 
 #define LAYER_UNNUSED -1
 
@@ -29,11 +31,6 @@ int is_file_initialized() {
 
 	fseek(file_ptr, 0, SEEK_SET);
 	fread(&header, sizeof(FileHeader), 1, file_ptr);
-
-	char msg[50];
-
-	sprintf(msg, "File header layer count: %d", header.layer_count);
-	log_message(msg);
 
 	if (header.layer_count >= 0 && header.layer_count < MAX_LAYERS) {
 		return 1; // file has a valid header, so is initialized already
@@ -58,7 +55,29 @@ void init_file_header() {
 	fflush(file_ptr);
 };
 
-void open_and_initialize_file(const char *filename) {
+void open_and_initialize_file() {
+
+	char filename[256] = { 0 };
+	int index = 0;
+
+	print_msg("Enter file name for map storage: ", 0);
+
+	while (1) {
+		char ch = (char)_getch();
+
+		// checking for enter to end filename input
+		if (ch == '\r') {
+			break;
+		}
+
+		if (index < 256) {
+			filename[index++] = ch;
+		}
+
+		char msg[280];
+		sprintf(msg, "Enter file name for map storage: %s", filename);
+		print_msg(msg, 0);
+	}
 
 	// try to open the file
 	if (!open_file(filename)) {
@@ -82,11 +101,8 @@ void save_layer(int layer_index) {
 
 	int isNew = 0;
 
-	log_message("Alright, we are running save function");
-
 	// check if layer exists already
 	if (file_header.layer_addresses[layer_index] == LAYER_UNNUSED) {
-		log_message("Layer does not exist yet in file");
 		
 		// initialize layer header
 		LayerHeader layer_header = { 0 };
@@ -101,7 +117,7 @@ void save_layer(int layer_index) {
 
 		// update file header
 		file_header.layer_addresses[layer_index] = file_header.next_available_layer_addr;
-		file_header.next_available_layer_addr += sizeof(LayerHeader) + sizeof(CellRecord);
+		file_header.next_available_layer_addr += sizeof(LayerHeader) + MAP_SIZE * sizeof(CellRecord);
 		file_header.layer_count++;
 
 		fseek(file_ptr, 0, SEEK_SET);
@@ -113,8 +129,6 @@ void save_layer(int layer_index) {
 	LayerHeader layer_header;
 	fseek(file_ptr, file_header.layer_addresses[layer_index], SEEK_SET);
 	fread(&layer_header, sizeof(LayerHeader), 1, file_ptr);
-
-	log_message("Reading layer from file");
 
 	int last_cell_x = 0;
 	int last_cell_y = 0;
@@ -131,7 +145,6 @@ void save_layer(int layer_index) {
 
 			// check if cell has changes that need to be saved
 			if (cell->unsaved) {
-				log_message("Found an unsaved cell");
 				// save it
 				CellRecord cell_record = {
 					.cell = *cell,
@@ -149,7 +162,6 @@ void save_layer(int layer_index) {
 						fseek(file_ptr, last_cell_addr, SEEK_SET);
 						fread(&last_cell_record, sizeof(CellRecord), 1, file_ptr);
 						if (last_cell_record.next_cell_addr == -1) {
-							log_message("Updating addy of last cell");
 							last_cell_record.next_cell_addr = layer_header.next_available_addr;
 							fseek(file_ptr, last_cell_addr, SEEK_SET);
 							fwrite(&last_cell_record, sizeof(CellRecord), 1, file_ptr);
@@ -194,22 +206,30 @@ void save_layer(int layer_index) {
 		.y_coord = last_cell_y
 	};
 
-	unsaved_changes = 0;
-
 	fseek(file_ptr, layer_header.next_available_addr - sizeof(CellRecord), SEEK_SET);
 	fwrite(&cell_record, sizeof(CellRecord), 1, file_ptr);
 }
 
-int load_layer(Map *map, int layer_index) {
-	log_message("Loading layer from file memory");
+void save() {
 
+	for (int i = 0; i < MAX_LAYERS; i++) {
+		Layer* layer = &cave_map->layers[i];
+		if (layer->initialized == 1 && layer->unsaved == 1) {
+			save_layer(i);
+		}
+	}
+
+	unsaved_changes = 0;
+
+	print_msg(is_drawing_mode ? "Drawing Mode" : "Movement Mode", 1);
+}
+
+int load_layer(Map *map, int layer_index) {
 	// load the file header to get layer address
 	FileHeader header = load_file_header();
 
 	// check if layer has already been saved to file
-	if (header.layer_addresses[layer_index] != LAYER_UNNUSED) {
-		log_message("Found a layer address, let's load this thang");
-		
+	if (header.layer_addresses[layer_index] != LAYER_UNNUSED) {		
 		// get layer header
 		LayerHeader layer_header;
 		fseek(file_ptr, header.layer_addresses[layer_index], SEEK_SET);
@@ -219,33 +239,25 @@ int load_layer(Map *map, int layer_index) {
 
 		long cell_address = layer_header.first_cell_addr;
 
-		char msg[50];
-
-		sprintf(msg, "First cell addr: %u", cell_address);
-
-		log_message(msg);
+		// track loop count to abort reading cells after max possible encountered for layer
+		int loop_count = 0;
 
 		// loop through the cells in the layer that have been saved to file
-		while (cell_address != -1) {
-			log_message("Looping through a cell");
+		while (cell_address != -1 && loop_count < MAP_SIZE) {
 			CellRecord cell_buffer;
 			fseek(file_ptr, cell_address, SEEK_SET);
 			fread(&cell_buffer, sizeof(CellRecord), 1, file_ptr);
 
-			char msg[50];
-
-			sprintf(msg, "Cell coords: %d %d", cell_buffer.x_coord, cell_buffer.y_coord);
-			log_message(msg);
-
 			current_layer->cells[cell_buffer.x_coord][cell_buffer.y_coord] = cell_buffer.cell;
 
 			cell_address = cell_buffer.next_cell_addr;
+
+			loop_count++;
 		}
 
 		return 1;
 	}
 	else {
-		log_message("No layer address here, not loading nuthin...");
 		return 0;
 	}
 }

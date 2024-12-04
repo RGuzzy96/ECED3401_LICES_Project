@@ -6,6 +6,8 @@
 	- 1 Nov 24 - Modified for Task 5 implementation (Ryan Guzzwell, Hemang Arora)
 */
 
+#include "map.h"
+
 // need to store robot state for battery and radiation exposure or whatever
 
 struct robot
@@ -21,6 +23,8 @@ int old_dir;
 
 typedef struct robot ROBOT;
 
+extern enum direction { NORTH, SOUTH, EAST, WEST, IDLE };
+
 extern void robot_init();
 extern void robot_move(char, int offset_x, int offset_y);
 
@@ -28,5 +32,9 @@ extern void create_portal(char portal_direction);
 extern void use_portal();
 extern void set_cell_attributes();
 
+extern int handle_emulator_step();
+
 /* In system.c: */
-extern void go_robot_go();
+extern void design_loop();
+extern void select_run_mode();
+extern void emulator_loop();

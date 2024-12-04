@@ -5,10 +5,9 @@
 #include "robot.h"
 #include "globals.h"
 #include "logger.h"
+#include "time.h"
 
 #define START_SYM	'*'
-
-enum direction { NORTH, SOUTH, EAST, WEST, IDLE };
 
 /* Tunnel symbol to display [new dir][old dir] */
 char cell_sym[4][5] = {
@@ -173,7 +172,7 @@ new_sym = current_cell->isPortal ? 'O' : asc_dec[new_off];
 
 EDLDM /* Enable DEC line drawing mode */
 
-if (is_drawing_mode) {
+if (is_drawing_mode && run_mode != EMULATOR) {
 	char prev_sym = current_cell->printed_symbol;
 	if (prev_sym != ' ' && !current_cell->isPortal) {
 		new_sym = determine_new_symbol(prev_sym, new_dir);
@@ -236,16 +235,21 @@ else {
 	draw_object(mylice.x, mylice.y, START_SYM);
 }
 
+EAM /* Enable ASCII mode */
+
+// get current cell with new coordinates
+current_cell = &cave_map->layers[cave_map->current_layer].cells[mylice.x + viewport_x][mylice.y + viewport_y];
+
 // log new coordinates
 char msg[200];
 if (current_cell->isPortal) {
 	sprintf(msg, "Take portal from Layer %d to Layer %d? Press 'p' to confirm", current_cell->elevation, current_cell->portalDestinationLayer);
 }
 else {
-	sprintf(msg, unsaved_changes ? "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%) - UNSAVED CHANGES" 
-		: "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%)", 
-		mylice.x + viewport_x, 
-		mylice.y + viewport_y, 
+	sprintf(msg, is_drawing_mode ? "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%) - DRAWING"
+		: "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%)",
+		mylice.x + viewport_x,
+		mylice.y + viewport_y,
 		cave_map->current_layer,
 		current_cell->elevation,
 		current_cell->friction,
@@ -257,9 +261,10 @@ else {
 }
 
 print_msg(msg, 0);
+if (unsaved_changes) {
+	print_msg(is_drawing_mode ? "Drawing Mode - UNSAVED CHANGES" : "Movement Mode - UNSAVED CHANGES", 1);
+}
 log_message(msg);
-
-EAM /* Enable ASCII mode */
 }
 
 void create_portal(char portal_direction) {
@@ -268,6 +273,12 @@ void create_portal(char portal_direction) {
 	current_cell->isPortal = 1;
 	current_cell->printed_symbol = 'O';
 	current_cell->portalDestinationLayer = portal_direction == 'd' ? cave_map->current_layer - 1 : cave_map->current_layer + 1;
+	current_cell->unsaved;
+
+	cave_map->layers[cave_map->current_layer].unsaved = 1;
+
+	unsaved_changes = 1;
+
 	draw_object(mylice.x, mylice.y, 'O');
 	log_message("Portal created");
 }
@@ -334,6 +345,7 @@ void set_cell_attributes() {
 	char attribute;
 	char value[10];
 	int intValue;
+	int changes_happened = 0;
 
 	print_msg("Editing cell attributes. Refer to run_logs.txt for detailed instructions. Press 'q' to exit.", 1);
 
@@ -401,7 +413,8 @@ void set_cell_attributes() {
 				}
 			}
 			else {
-				switch (attribute) {
+				changes_happened = 1;
+				switch (attribute) {	
 					case 'f':
 						current_cell->friction = intValue;
 						break;
@@ -422,6 +435,12 @@ void set_cell_attributes() {
 		}
 	}
 
+	if (changes_happened) {
+		current_cell->unsaved = 1;
+		cave_map->layers[cave_map->current_layer].unsaved = 1;
+		unsaved_changes = 1;
+	}
+
 	char msg[200];
 	sprintf(msg, is_drawing_mode ? "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%) - DRAWING"
 		: "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%)",
@@ -435,7 +454,152 @@ void set_cell_attributes() {
 		current_cell->type,
 		current_cell->ice_percentage
 	);
+
+
 	print_msg(msg, 0);
 
-	print_msg(is_drawing_mode ? "Drawing Mode" : "Movement Mode", 1);
+	if (unsaved_changes) {
+		print_msg(is_drawing_mode ? "Drawing Mode - UNSAVED CHANGES" : "Movement Mode - UNSAVED CHANGES", 1);
+	}
+	else {
+		print_msg(is_drawing_mode ? "Drawing Mode" : "Movement Mode", 1);
+	}
+}
+
+void get_adjacent_cells(Layer* layer, int x, int y, Cell* adjacent_cells[4]) {
+	char msg[50];
+	sprintf(msg, "Getting adjacent cells for: %d %d", x, y);
+	log_message(msg);
+	adjacent_cells[NORTH] = &layer->cells[x][y - 1];
+	adjacent_cells[SOUTH] = &layer->cells[x][y + 1];
+	adjacent_cells[EAST] = &layer->cells[x - 1][y];
+	adjacent_cells[WEST] = &layer->cells[x + 1][y];
+}
+
+int select_best_cell(Cell* cells[4], int* found_ice, int curr_x, int curr_y) {
+	int best_score = 0;
+	int best_cell_index = 0;
+
+	for (int i = 0; i < 4; i++) {
+		int cell_score = 0;
+		int y_offset[4] = { -1, 1, 0, 0 };
+		int x_offset[4] = { 0, 0, -1, 1 };
+
+		// check to see if this cell has been drawn in the map
+		if (cells[i]->printed_symbol != ' ') {
+
+			// default cell score for not being empty
+			cell_score = 5;
+
+			// check for ice
+			if (cells[i]->ice_percentage == 100) {
+				*found_ice = 1;
+				best_cell_index = i;
+				break;
+			}
+
+			// check if cell has been visited
+			clock_t visit_time = visited_list[cave_map->current_layer][curr_x + x_offset[i]][curr_y + y_offset[i]];
+
+			if (visit_time != 0) {
+				// get current time and get time since visited
+				clock_t current_time = clock();
+				double time_diff = (double)(current_time - visit_time) / CLOCKS_PER_SEC;
+				
+				// apply weighted penalty based on how long ago it was visited
+				int penalty = (int)(10 - time_diff);
+
+				// give light penalty to cells encountered long ago (more than random amount added after this too)
+				if (penalty < 3) {
+					penalty = 3;
+				}
+				
+				cell_score -= penalty;
+			}
+
+			// adding small random element to break ties, will add from 0 to 2 points
+			cell_score += rand() % (3);
+		}
+
+		if (cell_score > best_score) {
+			best_score = cell_score;
+			best_cell_index = i;
+		}
+	}
+
+	// return -1 if no cell was chosen as next
+	if (!best_score && *found_ice != 1) {
+		return -1;
+	}
+
+	return best_cell_index;
+}
+
+int handle_emulator_step() {
+
+	int offset_x = 0; // work with these and viewport later for automatic map shifting when going out of bounds
+	int offset_y = 0;
+
+	Layer* current_layer = &cave_map->layers[cave_map->current_layer];
+
+	Cell* current_cell = &current_layer->cells[mylice.x + viewport_x][mylice.y + viewport_y];
+	
+	Cell* adjacent_cells[4];
+
+	get_adjacent_cells(current_layer, mylice.x + viewport_x, mylice.y + viewport_y, adjacent_cells);
+
+	// check if we are on a portal
+	if (current_cell->isPortal) {
+		int visited_count = 0;
+		int valid_adjacent_cell_count = 0;
+		int y_offset[4] = { -1, 1, 0, 0 };
+		int x_offset[4] = { 0, 0, -1, 1 };
+
+		// loop through adjacent cells to see if we have already checked out that route
+		for (int i = 0; i < 4; i++) {
+			if (adjacent_cells[i]->printed_symbol != ' ') {
+				valid_adjacent_cell_count++;
+
+				clock_t visited_time = visited_list[cave_map->current_layer][mylice.x + viewport_x + x_offset[i]][mylice.y + viewport_y + y_offset[i]];
+				if (visited_time != 0) {
+					visited_count++;
+				}
+			}
+		}
+
+		// if we have visited all valid surrounding cells, lets try our luck through the portal
+		if (visited_count == valid_adjacent_cell_count) {
+			log_message("All surrounding cells have been visited, using portal");
+			use_portal();
+			return 0;
+		}
+		else {
+			log_message("Surrounding cells have not been explored, not using portal yet");
+		}
+	}
+
+	int found_ice = 0;
+	int next_cell_index = select_best_cell(adjacent_cells, &found_ice, mylice.x + viewport_x, mylice.y + viewport_y);
+
+	char ch_directions[4] = { 'A', 'B', 'D', 'C' }; // U, D, L, R
+
+	char cell_msg[50];
+
+	if (next_cell_index != -1) {
+		robot_move(ch_directions[next_cell_index], offset_x, offset_y);
+
+		// get and store timestamp of visiting cell
+		clock_t current_time = clock();
+		visited_list[cave_map->current_layer][mylice.x + viewport_x][mylice.y + viewport_y] = current_time;
+
+		if (found_ice) {
+			log_message("Oh bingo we got ice!");
+			return 1;
+		}
+	}
+	else {
+		// handle no best cell chosen
+	}
+
+	return 0;
 }
