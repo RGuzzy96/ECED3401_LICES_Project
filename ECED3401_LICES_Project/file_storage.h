@@ -54,7 +54,7 @@ typedef struct {
 
 // functions for file management
 void open_and_initialize_file(const char* filename);
-void save_layer(int layer_index);
+void save();
 int load_layer(Map *map, int layer_index);
 void delete_layer(int layer_index);
 void add_cell(int layer_index, Cell new_cell);

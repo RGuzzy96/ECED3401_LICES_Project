@@ -35,6 +35,7 @@ Changelog:
 #include "logger.h"
 #include "screen.h"
 #include "file_storage.h"
+#include "globals.h"
 
 HANDLE scrout; // output stream handler (screen output)
 HANDLE kbin; // input stream handler (keyboard input)
@@ -44,6 +45,9 @@ Map* cave_map = NULL;
 int viewport_x;
 int viewport_y;
 int unsaved_changes = 0;
+int quit_program = 0;
+enum RUNMODE run_mode = NONE;
+int visited_list[MAX_LAYERS][MAP_SIZE][MAP_SIZE] = { 0 };
 
 void terminate(char* msg) {
 	// fatal error detected, terminate program
@@ -88,22 +92,35 @@ int main(void) {
 
 	init_log_file();
 
-	// open and initialize file for storing and retrieving maps
-	open_and_initialize_file("map_storage.dat");
-
 	// initialize screen and robot
 	screen_init();
 	robot_init();
 
+	// open and initialize file for storing and retrieving maps
+	open_and_initialize_file("map_storage.dat");
+
+	print_msg("Welcome! Please refer to run_logs.txt in the program directory for instructions.", 0);
+
 	/* Enable keypad escape sequence */
 	KPNM
 
-	// initialize map for cave input
+	// initialize map for cave input or use in emulator
 	cave_map = create_map();
 
-	// enter the main control loop (move robot and modify map)
-	go_robot_go();
+	// prompt user to select run mode to start in
+	select_run_mode();
 
+	// main loop to allow switching between design and emulator
+	while (!quit_program) {
+		// enter the mode control loop (design loop OR emulator loop)
+		if (run_mode == DESIGN) {
+			design_loop();
+		}
+		else if (run_mode == EMULATOR) {
+			emulator_loop();
+		}
+	}
+	
 	printf("Cave map program complete. Press any key to exit.");
 
 	free(cave_map);

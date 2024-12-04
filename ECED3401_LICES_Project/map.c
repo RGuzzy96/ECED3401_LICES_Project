@@ -13,7 +13,6 @@ Map* create_map() {
 	Map* map = (Map*)calloc(1, sizeof(Map)); // initialize map with calloc (zero all values) for size of Map type
 
 	if (map == NULL) {
-		fprintf(stderr, "Memory allocation failed for Map\n");
 		return NULL;
 	}
 
@@ -26,8 +25,6 @@ Map* create_map() {
 }
 
 void initialize_layer(Map* map, int layer_index) {
-	log_message("Initializing layer!");
-
 	// loop through each col in layer
 	for (int x = 0; x < MAP_SIZE; x++) {
 

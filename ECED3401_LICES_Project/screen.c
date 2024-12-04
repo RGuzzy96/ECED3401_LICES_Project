@@ -124,8 +124,6 @@ CLRSCR
 
 /* Resizing displays cursor - hide it */
 printf(CSI "?25l");
-
-print_msg("Welcome! Please refer to run_logs.txt in the program directory for instructions.", 0);
 }
 
 int draw_object(int col, int row, int symbol)
