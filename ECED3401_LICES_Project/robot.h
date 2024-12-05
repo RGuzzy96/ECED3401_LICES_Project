@@ -19,6 +19,7 @@ int curr_dir;	/* Current direction N, S, E, W */
 int oldx;
 int oldy;
 int old_dir;
+int battery_level;
 };
 
 typedef struct robot ROBOT;

@@ -12,3 +12,4 @@ extern int unsaved_changes;
 extern enum RUNMODE run_mode;
 extern int quit_program;
 extern int visited_list[MAX_LAYERS][MAP_SIZE][MAP_SIZE];
+extern int portal_usage_list[MAX_LAYERS][MAP_SIZE][MAP_SIZE];

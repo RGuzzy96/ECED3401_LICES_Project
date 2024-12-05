@@ -99,3 +99,23 @@ void handle_portal(Map* map, int from_layer, int to_layer) {
 	}
 }
 
+void move_to_layer_zero(Map* map) {
+	map->current_layer = 0;
+	draw_visible_map(map);
+}
+
+void move_to_last_layer_created(Map* map) {
+	log_message("Trying to move to last layer");
+
+	int last_layer_index = 0;
+	for (int i = 0; i < MAX_LAYERS; i++) {
+		if (map->layers[i].initialized) {
+			log_message("Found an initialized layer");
+			last_layer_index = i;
+		}
+	}
+
+	map->current_layer = last_layer_index;
+	draw_visible_map(map);
+}
+

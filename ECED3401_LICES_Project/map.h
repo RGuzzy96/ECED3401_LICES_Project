@@ -43,4 +43,8 @@ void handle_portal(Map* map, int from_layer, int to_layer);
 // function to draw the map visible in the viewport of the console at its current size
 void draw_visible_map(Map* map);
 
+void move_to_layer_zero(Map* map);
+
+void move_to_last_layer_created(Map* map);
+
 #endif // MAP_H
