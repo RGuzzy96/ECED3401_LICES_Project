@@ -53,7 +53,7 @@ typedef struct {
 //} FileRecord;
 
 // functions for file management
-void open_and_initialize_file(const char* filename);
+void open_and_initialize_file();
 void save();
 int load_layer(Map *map, int layer_index);
 void delete_layer(int layer_index);

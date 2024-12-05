@@ -100,6 +100,8 @@ mylice.x = screen.center.col;
 mylice.y = screen.center.row;
 mylice.curr_dir = IDLE;
 
+mylice.battery_level = 1000;
+
 printf(CSI "%dm" CSI "%dm", BGGREEN, FGWHITE);
 
 draw_object(mylice.x, mylice.y, START_SYM);
@@ -240,10 +242,30 @@ EAM /* Enable ASCII mode */
 // get current cell with new coordinates
 current_cell = &cave_map->layers[cave_map->current_layer].cells[mylice.x + viewport_x][mylice.y + viewport_y];
 
+// consume battery due to friction
+mylice.battery_level -= current_cell->friction;
+
+// charge up battery from ritterbarium
+
+
 // log new coordinates
 char msg[200];
 if (current_cell->isPortal) {
 	sprintf(msg, "Take portal from Layer %d to Layer %d? Press 'p' to confirm", current_cell->elevation, current_cell->portalDestinationLayer);
+}
+else if (run_mode == EMULATOR) {
+	sprintf(msg, "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%) - LICER: (BA: %d, DCUs: N/A, BR: N/A)",
+		mylice.x + viewport_x,
+		mylice.y + viewport_y,
+		cave_map->current_layer,
+		current_cell->elevation,
+		current_cell->friction,
+		current_cell->radiation,
+		current_cell->ritterbarium,
+		current_cell->type,
+		current_cell->ice_percentage,
+		mylice.battery_level
+	);
 }
 else {
 	sprintf(msg, is_drawing_mode ? "(X: %d, Y: %d, Z: %d) (E: %d, F: %d, R: %d, B: %d, T: %c, I: %d%) - DRAWING"
@@ -467,9 +489,6 @@ void set_cell_attributes() {
 }
 
 void get_adjacent_cells(Layer* layer, int x, int y, Cell* adjacent_cells[4]) {
-	char msg[50];
-	sprintf(msg, "Getting adjacent cells for: %d %d", x, y);
-	log_message(msg);
 	adjacent_cells[NORTH] = &layer->cells[x][y - 1];
 	adjacent_cells[SOUTH] = &layer->cells[x][y + 1];
 	adjacent_cells[EAST] = &layer->cells[x - 1][y];
@@ -519,6 +538,8 @@ int select_best_cell(Cell* cells[4], int* found_ice, int curr_x, int curr_y) {
 
 			// adding small random element to break ties, will add from 0 to 2 points
 			cell_score += rand() % (3);
+
+			// add weighting for other factors like radiation and friction
 		}
 
 		if (cell_score > best_score) {

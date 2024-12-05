@@ -48,6 +48,7 @@ int unsaved_changes = 0;
 int quit_program = 0;
 enum RUNMODE run_mode = NONE;
 int visited_list[MAX_LAYERS][MAP_SIZE][MAP_SIZE] = { 0 };
+int portal_usage_list[MAX_LAYERS][MAP_SIZE][MAP_SIZE] = { 0 };
 
 void terminate(char* msg) {
 	// fatal error detected, terminate program
@@ -97,7 +98,7 @@ int main(void) {
 	robot_init();
 
 	// open and initialize file for storing and retrieving maps
-	open_and_initialize_file("map_storage.dat");
+	open_and_initialize_file();
 
 	print_msg("Welcome! Please refer to run_logs.txt in the program directory for instructions.", 0);
 

@@ -125,13 +125,30 @@ while (!done)
 						}
 					}
 				}
+
+				char msg[25];
+				sprintf(msg, "Ch: %c", ch);
+				log_message(msg);
 			
 				// check for robot movement or other escape commands
 				switch (ch)
 				{
 				case 'H':
-					done = TRUE;
-					quit_program = 1;
+					if (is_drawing_mode) {
+						move_to_layer_zero(cave_map);
+					}
+					else {
+						// move cursor to 1, 1
+					}
+					break;
+				case 'F':
+					if (!is_drawing_mode) {
+						done = TRUE;
+						quit_program = 1;
+					}
+					else {
+						move_to_last_layer_created(cave_map);
+					}
 					break;
 				case 'A':
 				case 'B':
