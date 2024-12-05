@@ -295,7 +295,7 @@ void create_portal(char portal_direction) {
 	current_cell->isPortal = 1;
 	current_cell->printed_symbol = 'O';
 	current_cell->portalDestinationLayer = portal_direction == 'd' ? cave_map->current_layer - 1 : cave_map->current_layer + 1;
-	current_cell->unsaved;
+	current_cell->unsaved = 1;
 
 	cave_map->layers[cave_map->current_layer].unsaved = 1;
 

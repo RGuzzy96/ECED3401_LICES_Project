@@ -48,9 +48,6 @@ void select_run_mode() {
 	while (!done) {
 		if (_kbhit()) {
 			char ch = (char)_getch();
-			char msg[25];
-			sprintf(msg, "Ch: %c", ch);
-			log_message(msg);
 			switch (ch) {	
 			case 'd':
 				run_mode = DESIGN;
