@@ -47,9 +47,11 @@ int viewport_y;
 int unsaved_changes = 0;
 int quit_program = 0;
 enum RUNMODE run_mode = NONE;
-int visited_list[MAX_LAYERS][MAP_SIZE][MAP_SIZE] = { 0 };
-int portal_usage_list[MAX_LAYERS][MAP_SIZE][MAP_SIZE] = { 0 };
+clock_t visited_list[MAX_LAYERS][MAP_SIZE][MAP_SIZE] = { 0 };
+clock_t portal_usage_list[MAX_LAYERS][MAP_SIZE][MAP_SIZE] = { 0 };
 int active_layers[MAX_ACTIVE_LAYERS] = { -1, -1 };
+NavStep nav_stack[MAX_STEPS] = { 0 };
+int nav_stack_top = -1;
 
 void terminate(char* msg) {
 	// fatal error detected, terminate program

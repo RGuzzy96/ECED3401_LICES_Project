@@ -34,23 +34,22 @@ typedef struct {
 
 typedef struct {
 	int layer_index;
-	enum RecStatus status;
 	long first_cell_addr;
-	long first_deleted_addr;
 	long next_available_addr;
 } LayerHeader;
 
 typedef struct {
 	int layer_count;
 	long next_available_layer_addr;
+	long first_deleted_addr;
 	long layer_addresses[MAX_LAYERS];
 } FileHeader;
 
-//typedef union {
-//	FileHeader file_header;
-//	LayerHeader layer_header;
-//	CellRecord cell_record;
-//} FileRecord;
+typedef struct {
+	int x, y, layer_index;
+	int size;
+	long next_deleted_addr;
+} DeletedSpace;
 
 // functions for file management
 void open_and_initialize_file();

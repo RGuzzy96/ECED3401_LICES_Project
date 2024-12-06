@@ -65,7 +65,10 @@ void draw_visible_map(Map* map) {
 
 			if (0 <= map_x && map_x < MAP_SIZE && 0 <= map_y && map_y < MAP_SIZE) {
 				char sym = current_layer->cells[map_x][map_y].printed_symbol;
-				if (sym != ' ') {
+				if (current_layer->cells[map_x][map_y].ice_percentage == 100) {
+					printf(CSI "%dm", BGBLUE);
+				}
+				else if (sym != ' ') {
 					printf(CSI "%dm", BGGREEN);
 				}
 				else {
@@ -105,12 +108,10 @@ void move_to_layer_zero(Map* map) {
 }
 
 void move_to_last_layer_created(Map* map) {
-	log_message("Trying to move to last layer");
 
 	int last_layer_index = 0;
 	for (int i = 0; i < MAX_LAYERS; i++) {
 		if (map->layers[i].initialized) {
-			log_message("Found an initialized layer");
 			last_layer_index = i;
 		}
 	}

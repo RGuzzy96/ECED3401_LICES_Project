@@ -225,7 +225,14 @@ else {
 	// replace previous robot symbol with previous cell symbol
 	char prev_sym = cave_map->layers[cave_map->current_layer].cells[mylice.oldx + viewport_x][mylice.oldy + viewport_y].printed_symbol;
 	if (prev_sym != ' ') {
-		draw_object(mylice.oldx, mylice.oldy, prev_sym);
+		if (cave_map->layers[cave_map->current_layer].cells[mylice.oldx + viewport_x][mylice.oldy + viewport_y].ice_percentage == 100) {
+			printf(CSI "%dm", BGBLUE);
+			draw_object(mylice.oldx, mylice.oldy, prev_sym);
+			printf(CSI "%dm", BGGREEN);
+		}
+		else {
+			draw_object(mylice.oldx, mylice.oldy, prev_sym);
+		}
 	}
 	else {
 		printf(CSI "%dm", BGBLACK);
@@ -451,6 +458,13 @@ void set_cell_attributes() {
 						break;
 					case 'i':
 						current_cell->ice_percentage = intValue;
+						if (intValue == 100) {
+							EDLDM
+							printf(CSI "%dm", BGBLUE);
+							draw_object(mylice.x + viewport_x, mylice.y + viewport_y, current_cell->printed_symbol);
+							printf(CSI "%dm", BGGREEN);
+							EAM
+						}
 						break;
 				}
 			}
@@ -520,7 +534,7 @@ int select_best_cell(Cell* cells[4], int* found_ice, int curr_x, int curr_y) {
 			// check if cell has been visited
 			clock_t visit_time = visited_list[cave_map->current_layer][curr_x + x_offset[i]][curr_y + y_offset[i]];
 
-			if (visit_time != 0) {
+			if (visit_time > 0) {
 				// get current time and get time since visited
 				clock_t current_time = clock();
 				double time_diff = (double)(current_time - visit_time) / CLOCKS_PER_SEC;
@@ -556,10 +570,39 @@ int select_best_cell(Cell* cells[4], int* found_ice, int curr_x, int curr_y) {
 	return best_cell_index;
 }
 
-int handle_emulator_step() {
+void push_nav_step(int x, int y, int layer) {
+	if (nav_stack_top < MAX_STEPS - 1) {
+		nav_stack_top++;
+		nav_stack[nav_stack_top].x = x;
+		nav_stack[nav_stack_top].y = y;
+		nav_stack[nav_stack_top].layer = layer;
+	}
+}
 
-	int offset_x = 0; // work with these and viewport later for automatic map shifting when going out of bounds
-	int offset_y = 0;
+void pop_nav_step() {
+	if (nav_stack_top >= 0) {
+		nav_stack_top--;
+	}
+}
+
+void optimize_nav_stack(int curr_x, int curr_y, int curr_layer) {
+	int last_occurrence_index = -1;
+
+	// loop through and look for the last occurrence of the current cell in the stack
+	for (int i = 0; i <= nav_stack_top; i++) {
+		NavStep* step = &nav_stack[i];
+		if (step->x == curr_x && step->y == curr_y && step->layer == curr_layer) {
+			last_occurrence_index = i;
+		}
+	}
+
+	// if we find a last occurance, pop all steps after the last occurrence
+	if (last_occurrence_index != -1) {
+		nav_stack_top = last_occurrence_index;
+	}
+}
+
+int handle_emulator_step(int* is_retrace_mode) {
 
 	Layer* current_layer = &cave_map->layers[cave_map->current_layer];
 
@@ -569,12 +612,66 @@ int handle_emulator_step() {
 
 	get_adjacent_cells(current_layer, mylice.x + viewport_x, mylice.y + viewport_y, adjacent_cells);
 
+	if (*is_retrace_mode) {
+		if (nav_stack_top >= 0) {
+			NavStep* step = &nav_stack[nav_stack_top];
+
+			char ch_movement;
+			int curr_x = mylice.x + viewport_x;
+			int curr_y = mylice.y + viewport_y;
+
+			int offset_x = curr_x - step->x;
+			int offset_y = curr_y - step->y;
+
+			if (offset_x != 0 || offset_y != 0) {
+				if (offset_x == 1) {
+					ch_movement = 'D'; // go left
+				}
+				else if (offset_x == -1) {
+					ch_movement = 'C'; // go right
+				}
+				else if (offset_y == -1) {
+					ch_movement = 'B'; // go down
+				}
+				else if (offset_y == 1) {
+					ch_movement = 'A'; // go up
+				}
+
+				robot_move(ch_movement, 0, 0);
+			}
+			else if (cave_map->current_layer != step->layer) {
+				use_portal();
+			}
+
+			pop_nav_step();
+
+			if (nav_stack_top < 0) {
+				print_msg("Back to the start with our ice! Nice work LICER.", 1);
+				*is_retrace_mode = 0;
+			}
+		}
+
+		return 1;
+	}
+
+	// check to see if we have been here already
+	clock_t visited_curr_cell = visited_list[cave_map->current_layer][mylice.x + viewport_x][mylice.y + viewport_y];
+
+	if (visited_curr_cell > 0) {
+		// optimize nav stack if we have already been here
+		optimize_nav_stack(mylice.x + viewport_x, mylice.y + viewport_y, cave_map->current_layer);
+	}
+	else {
+		push_nav_step(mylice.x + viewport_x, mylice.y + viewport_y, cave_map->current_layer);
+	}
+
 	// check if we are on a portal
 	if (current_cell->isPortal) {
 		int visited_count = 0;
 		int valid_adjacent_cell_count = 0;
 		int y_offset[4] = { -1, 1, 0, 0 };
 		int x_offset[4] = { 0, 0, -1, 1 };
+		clock_t oldest_adjacent_visit = 0;
 
 		// loop through adjacent cells to see if we have already checked out that route
 		for (int i = 0; i < 4; i++) {
@@ -584,13 +681,18 @@ int handle_emulator_step() {
 				clock_t visited_time = visited_list[cave_map->current_layer][mylice.x + viewport_x + x_offset[i]][mylice.y + viewport_y + y_offset[i]];
 				if (visited_time != 0) {
 					visited_count++;
+					if (visited_time > oldest_adjacent_visit) {
+						oldest_adjacent_visit = visited_time;
+					}
 				}
 			}
 		}
 
+		clock_t portal_last_used = portal_usage_list[cave_map->current_layer][mylice.x + viewport_x][mylice.y + viewport_y];
+
 		// if we have visited all valid surrounding cells, lets try our luck through the portal
-		if (visited_count == valid_adjacent_cell_count) {
-			log_message("All surrounding cells have been visited, using portal");
+		if (visited_count == valid_adjacent_cell_count && portal_last_used < oldest_adjacent_visit) {
+			portal_usage_list[cave_map->current_layer][mylice.x + viewport_x][mylice.y + viewport_y] = clock();
 			use_portal();
 			return 0;
 		}
@@ -607,11 +709,12 @@ int handle_emulator_step() {
 	char cell_msg[50];
 
 	if (next_cell_index != -1) {
-		robot_move(ch_directions[next_cell_index], offset_x, offset_y);
-
+		
 		// get and store timestamp of visiting cell
 		clock_t current_time = clock();
 		visited_list[cave_map->current_layer][mylice.x + viewport_x][mylice.y + viewport_y] = current_time;
+
+		robot_move(ch_directions[next_cell_index], 0, 0);
 
 		if (found_ice) {
 			log_message("Oh bingo we got ice!");
