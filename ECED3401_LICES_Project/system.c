@@ -122,10 +122,6 @@ while (!done)
 						}
 					}
 				}
-
-				char msg[25];
-				sprintf(msg, "Ch: %c", ch);
-				log_message(msg);
 			
 				// check for robot movement or other escape commands
 				switch (ch)
@@ -173,7 +169,7 @@ while (!done)
 				if (is_drawing_mode) {
 					char portal_direction;
 					if (cave_map->current_layer != 0) {
-						print_msg("What direction should this portal go? Hit 'u' for up and 'd' for down a layer", 0);
+						print_msg("What direction should this portal go? Hit 'u' for up (deeper) and 'd' for down a layer index (higher)", 0);
 						while (1) {
 							portal_direction = (char)_getch();
 							if (portal_direction == 'u' || portal_direction == 'd') {
@@ -191,7 +187,6 @@ while (!done)
 				}
 				break;
 			case 's':
-				log_message("Trying to save map layer!");
 				save();
 				break;
 			case 'm':
@@ -231,6 +226,7 @@ void emulator_loop() {
 	int done = FALSE;
 	int emulator_running = 0;
 	int found_ice = 0;
+	int is_retrace_mode = 0;
 	int already_printed_ice_message = 0;
 
 	// reset to first layer to start emulation
@@ -269,6 +265,18 @@ void emulator_loop() {
 						reset_emulator();
 					}
 				}
+				else {
+					if (is_retrace_mode) {
+						found_ice = 0;
+						already_printed_ice_message = 0;
+
+						reset_emulator();
+					}
+					else {
+						print_msg("Let's get our ice back to base! Retracing optimal route...", 1);
+						is_retrace_mode = 1;
+					}
+				}
 				break;
 			case 'p':
 				log_message("Pausing emulator");
@@ -292,17 +300,17 @@ void emulator_loop() {
 			}
 		}
 
-		if (emulator_running && !found_ice) {
+		if (emulator_running && (!found_ice || is_retrace_mode)) {
 			clock_t current_time = clock();
 			if ((current_time - last_emulator_step_time) * 1000 / CLOCKS_PER_SEC > EMULATOR_STEP_DEBOUNCE) {
 				last_emulator_step_time = current_time;
-				found_ice = handle_emulator_step();
+				found_ice = handle_emulator_step(&is_retrace_mode);
 			}
 		}
 
 		// hang program once we have found ice
 		if (found_ice && !already_printed_ice_message) {
-			print_msg("We have found ice! You can run the emulator again, or switch to design mode to update the map", 1);
+			print_msg("We have found ice! Press 's' to journey back to start", 1);
 			already_printed_ice_message = 1;
 		}
 	}
