@@ -3,6 +3,7 @@
 
 #define MAP_SIZE 100 // 1km x 1km grid at 10m cells gives 100 x 100 cells
 #define MAX_LAYERS 100 // 100 layers, 1m tall each
+#define MAX_ACTIVE_LAYERS 2 // max layers to be stored in memory at a time
 
 // structure for a single cell within a layer
 typedef struct {

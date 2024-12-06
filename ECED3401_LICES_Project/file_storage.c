@@ -99,10 +99,13 @@ FileHeader load_file_header() {
 void save_layer(int layer_index) {
 	FileHeader file_header = load_file_header();
 
+	log_message("Trying to save layer");
+
 	int isNew = 0;
 
 	// check if layer exists already
 	if (file_header.layer_addresses[layer_index] == LAYER_UNNUSED) {
+		log_message("Layer does not exist already");
 		
 		// initialize layer header
 		LayerHeader layer_header = { 0 };
@@ -117,8 +120,12 @@ void save_layer(int layer_index) {
 
 		// update file header
 		file_header.layer_addresses[layer_index] = file_header.next_available_layer_addr;
-		file_header.next_available_layer_addr += sizeof(LayerHeader) + MAP_SIZE * sizeof(CellRecord);
+		file_header.next_available_layer_addr += sizeof(LayerHeader);
 		file_header.layer_count++;
+
+		char msg[100];
+		sprintf(msg, "This addr and next avail: %u %u", file_header.layer_addresses[layer_index], file_header.next_available_layer_addr);
+		log_message(msg);
 
 		fseek(file_ptr, 0, SEEK_SET);
 		fwrite(&file_header, sizeof(FileHeader), 1, file_ptr);
@@ -129,6 +136,8 @@ void save_layer(int layer_index) {
 	LayerHeader layer_header;
 	fseek(file_ptr, file_header.layer_addresses[layer_index], SEEK_SET);
 	fread(&layer_header, sizeof(LayerHeader), 1, file_ptr);
+
+	layer_header.next_available_addr = file_header.next_available_layer_addr;
 
 	int last_cell_x = 0;
 	int last_cell_y = 0;
@@ -208,6 +217,15 @@ void save_layer(int layer_index) {
 
 	fseek(file_ptr, layer_header.next_available_addr - sizeof(CellRecord), SEEK_SET);
 	fwrite(&cell_record, sizeof(CellRecord), 1, file_ptr);
+
+	file_header.next_available_layer_addr = layer_header.next_available_addr;
+
+	char msg[100];
+	sprintf(msg, "Updated next avail after saving: %u", file_header.next_available_layer_addr);
+	log_message(msg);
+
+	fseek(file_ptr, 0, SEEK_SET);
+	fwrite(&file_header, sizeof(FileHeader), 1, file_ptr);
 }
 
 void save() {
@@ -215,6 +233,7 @@ void save() {
 	for (int i = 0; i < MAX_LAYERS; i++) {
 		Layer* layer = &cave_map->layers[i];
 		if (layer->initialized == 1 && layer->unsaved == 1) {
+			log_message("Found a layer to save");
 			save_layer(i);
 		}
 	}
@@ -224,13 +243,35 @@ void save() {
 	print_msg(is_drawing_mode ? "Drawing Mode" : "Movement Mode", 1);
 }
 
+void manage_layers_in_memory(int curr_index) {
+	int evict_index = -1;
+
+	// check if this layer is already in our active layer list
+	for (int i = 0; i < MAX_ACTIVE_LAYERS; i++) {
+		if (active_layers[i] == curr_index) {
+			return;
+		}
+	}
+
+	// if it is not, check the active layer list and see which is furthest away from this index
+	int distance1 = active_layers[0] - curr_index;
+	int distance2 = active_layers[1] - curr_index;
+
+	// clear this layer from map memory, and put current index in active layers
+}
+
 int load_layer(Map *map, int layer_index) {
 	// load the file header to get layer address
 	FileHeader header = load_file_header();
 
 	// check if layer has already been saved to file
 	if (header.layer_addresses[layer_index] != LAYER_UNNUSED) {		
+		log_message("Layer has been saved before");
 		// get layer header
+		char msg[50];
+		sprintf(msg, "Looking for layer at: %u", header.layer_addresses[layer_index]);
+		log_message(msg);
+
 		LayerHeader layer_header;
 		fseek(file_ptr, header.layer_addresses[layer_index], SEEK_SET);
 		fread(&layer_header, sizeof(LayerHeader), 1, file_ptr);
@@ -239,11 +280,15 @@ int load_layer(Map *map, int layer_index) {
 
 		long cell_address = layer_header.first_cell_addr;
 
+		char ms[50];
+		sprintf(ms, "Looking for first cell at: %u", layer_header.first_cell_addr);
+		log_message(ms);
+
 		// track loop count to abort reading cells after max possible encountered for layer
 		int loop_count = 0;
 
 		// loop through the cells in the layer that have been saved to file
-		while (cell_address != -1 && loop_count < MAP_SIZE) {
+		while (cell_address != -1 && loop_count < (MAP_SIZE * MAP_SIZE)) {
 			CellRecord cell_buffer;
 			fseek(file_ptr, cell_address, SEEK_SET);
 			fread(&cell_buffer, sizeof(CellRecord), 1, file_ptr);
@@ -258,6 +303,7 @@ int load_layer(Map *map, int layer_index) {
 		return 1;
 	}
 	else {
+		log_message("Layer has not been saved before");
 		return 0;
 	}
 }
